@@ -13,6 +13,6 @@ public class Main extends Parent {
 		Licensee.license_holder(age);
 		Licensee lic = new Licensee();
 //		Abstract abs = new Abstract();
-		System.out.print(lic.name+ "   " + lic.lName + m.location);
+		System.out.print(lic.name+ "   " + m.location);
 	}
 }

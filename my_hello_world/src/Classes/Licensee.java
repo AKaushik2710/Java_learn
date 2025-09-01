@@ -1,6 +1,9 @@
 package Classes;
 
 public class Licensee extends Abstract {
+	void lastName(String name) {
+		System.out.print(false);
+	}
 	protected String name = "Aman";
 	static void license_holder(int age) {
 		if(0<age && age<18) {

@@ -6,7 +6,7 @@ public class File_Handler_3 {
 		try {
 			File myFile = new File("trial.txt");
 			FileReader myFile_2 = new FileReader("trial.txt");
-			System.out.println(myFile_2.read());
+//			System.out.println(myFile_2.read());
 			Scanner sc = new Scanner(myFile);
 			while(sc.hasNextLine()) {
 				String data = sc.nextLine();

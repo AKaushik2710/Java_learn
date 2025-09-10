@@ -6,4 +6,5 @@
  *
  */
 module my_hello_world {
+	requires java.sql;
 }

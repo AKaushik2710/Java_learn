@@ -1,9 +1,9 @@
 package assignment2;
 
 public class Student {
-	int rollNo;
-	String name;
-	int eng,hindi,math;
+	public int rollNo;
+	public String name;
+	public int eng,hindi,math;
 	
 	Student(int rollNo,int eng,int hindi,int math, String name){
 		this.rollNo = rollNo;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
+import java.util.Scanner;
 //import assignment2.Student;
 class Student {
 	public int rollNo;
@@ -55,7 +55,7 @@ interface creatorInterface{
 interface rudInterface{
 	void insertStudents(String dbName, String tableName, Connection con, ArrayList<Student> arr);
 	<T>void deleteStudent(T identifier, String dbName, String tableName, Connection con, ArrayList<Student> arr);
-	<T, U>void updateStudent(HashMap<T,U> hm, int identifier, String dbName, String tableName, Connection con);
+	<T, U>void updateStudent(HashMap<T,U> hm, String dbName, String tableName, Connection con);
 }
 public class StudentManagementSystem implements creatorInterface, rudInterface{
 	public<T> ArrayList<T> createStudents(int param, Random r, Class<T> clazz){
@@ -100,7 +100,7 @@ public class StudentManagementSystem implements creatorInterface, rudInterface{
 			state.execute(query);
 			System.out.println("DB created successfully");
 			state.close();
-			con.close();
+			
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -169,19 +169,25 @@ public class StudentManagementSystem implements creatorInterface, rudInterface{
 		}
 	}
 	
-	public <T, U> void updateStudent(HashMap<T,U> hm, int identifier, String dbName, String tableName, Connection con){
+	public <T, U> void updateStudent(HashMap<T,U> hm, String dbName, String tableName, Connection con){
 		try {
 			Statement state = con.createStatement();
 			String query = "USE "+dbName;
 			state.execute(query);
 			PreparedStatement ps;
-			String m;
 			for(Map.Entry<T, U> map : hm.entrySet()) {
-				m=(String)map.getKey();
-				query = "UPDATE "+tableName+" SET "+ m +"=?"+" WHERE rollNo=?";
+				HashMap<String, Integer> m = (HashMap<String, Integer>) map.getValue();
+				String columnName = null;
+	            Integer columnValue = null;
+
+	            for (Map.Entry<String, Integer> entry : m.entrySet()) {
+	                columnName = entry.getKey();
+	                columnValue = entry.getValue();
+	            }
+				query = "UPDATE "+tableName+" SET "+ columnName +"=?"+" WHERE rollNo=?";
 				ps = con.prepareStatement(query);
-				ps.setObject(1, map.getValue());
-				ps.setInt(2, identifier);
+				ps.setObject(1, columnValue);
+				ps.setInt(2, (int) map.getKey());
 				ps.execute();
 			}
 			System.out.println("Updation Completed");
@@ -191,13 +197,13 @@ public class StudentManagementSystem implements creatorInterface, rudInterface{
 		}
 	}
 	
-	static ArrayList<Student> readData(Connection con) {
+	static ArrayList<Student> readData(Connection con, String name) {
 		try {
 			Statement state = con.createStatement();
 			String query = "USE Students";
 			state.execute(query);
 			Statement s = con.createStatement();
-			query = "SELECT * FROM MYStudents";
+			query = "SELECT * FROM "+name;
 			ResultSet res = s.executeQuery(query);
 			ArrayList<Student> arr = new ArrayList<>();
 			while(res.next()) {
@@ -215,7 +221,7 @@ public class StudentManagementSystem implements creatorInterface, rudInterface{
 		StudentManagementSystem sms = new StudentManagementSystem();
 		int num = 3;
 		Random r = new Random();
-		ArrayList<Student> students = sms.createStudents(num, r, Student.class);;
+		ArrayList<Student> students = new ArrayList<>();
 
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -225,13 +231,80 @@ public class StudentManagementSystem implements creatorInterface, rudInterface{
 //				sms.createTable("Students", "MYStudents", con);
 //				sms.insertStudents("Students", "MYStudents", con, students);
 				int id=1002;
-				students = readData(con);
+//				students = readData(con);
 //				System.out.println(students);
 //				sms.deleteStudent(id, "Students", "MYStudents", con, students);
-				HashMap<String, Integer> hm = new HashMap<>();
-				hm.put("english", 67);
-				hm.put("math", 80);
-				sms.updateStudent(hm, id, "Students", "MYStudents", con);
+				
+				HashMap<Integer, HashMap<String, Integer>> identifier = new HashMap<>();
+//				sms.updateStudent(hm, id, "Students", "MYStudents", con);
+				Scanner sc = new Scanner(System.in);
+				String dbName = "", tabName="", record="";
+				int hashId;
+				System.out.println("How many operations do you want to perform:- ");
+				int iterations = sc.nextInt();
+				for(int i=0; i<iterations; i++) {
+					System.out.println("What operation would you like to perform:-\n"
+							+ "a.)Create Students Data\t\tb.)Create DB\n"
+							+"c.)Create table \t\td.)Insert data \n"
+							+"d.)Update data in table \t\te.)Delete data in table");
+					String choice = sc.next();
+					switch(choice.charAt(0)) {
+					case 'a':
+						System.out.println("Enter the number of students data you want to have:-");
+						int numStudents = sc.nextInt();
+						students = sms.createStudents(numStudents, r, Student.class);
+						break;
+					case 'b':
+						System.out.println("Enter the name of DB");
+						dbName = sc.next();
+						sms.createDB(dbName, con);
+						break;
+					case 'c':
+						System.out.println("Enter the name of table");
+						dbName="Students";
+						tabName = sc.next();
+						sms.createTable(dbName, tabName, con);
+						break;
+					case 'd':
+						tabName="mark";
+						dbName = "Students";
+						System.out.println("Insertb the students data");
+						System.out.println(students);
+						sms.insertStudents(dbName, tabName, con, students);
+						break;
+					case 'e':
+						tabName="mark";
+						dbName = "Students";
+						System.out.println("Update the students table");
+						System.out.println("Enter the number of records you would like to update:-");
+						int n = sc.nextInt();
+						for(int k = 1; k <= n; k++) {
+							HashMap<String, Integer> updateValues = new HashMap<>();
+							System.out.println("Enter data into this format i.e. key=value:-");
+							record = sc.next();
+//							sc.nextLine();
+							String[] records = record.split("=");
+							updateValues.put(records[0], Integer.parseInt(records[1]));
+							System.out.println("Enter the roll no of the student you want to update the data for:-");
+							identifier.put(sc.nextInt(), updateValues);
+						}
+						sms.updateStudent(identifier, dbName, tabName, con);
+						break;
+						
+					case 'f':
+						tabName="mark";
+						dbName = "Students";
+						System.out.println("Delete from students table");
+						System.out.println("Enter the roll no of the student ");
+						
+						sms.deleteStudent(sc.nextInt(), dbName, tabName, con, students);
+						break;
+					case 'g' : 
+						ArrayList<Student> arr =  readData(con, "mark");
+						System.out.println(arr);
+						break;
+					}
+				}
 				
 			}
 			catch(Exception e) {

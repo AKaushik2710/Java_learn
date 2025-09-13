@@ -227,16 +227,8 @@ public class StudentManagementSystem implements creatorInterface, rudInterface{
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				
 				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "qwe123");
-//				sms.createDB("Students", con);
-//				sms.createTable("Students", "MYStudents", con);
-//				sms.insertStudents("Students", "MYStudents", con, students);
-				int id=1002;
-//				students = readData(con);
-//				System.out.println(students);
-//				sms.deleteStudent(id, "Students", "MYStudents", con, students);
 				
 				HashMap<Integer, HashMap<String, Integer>> identifier = new HashMap<>();
-//				sms.updateStudent(hm, id, "Students", "MYStudents", con);
 				Scanner sc = new Scanner(System.in);
 				String dbName = "", tabName="", record="";
 				int hashId;
@@ -246,7 +238,7 @@ public class StudentManagementSystem implements creatorInterface, rudInterface{
 					System.out.println("What operation would you like to perform:-\n"
 							+ "a.)Create Students Data\t\tb.)Create DB\n"
 							+"c.)Create table \t\td.)Insert data \n"
-							+"d.)Update data in table \t\te.)Delete data in table");
+							+"e.)Update data in table \t\tf.)Delete data in table");
 					String choice = sc.next();
 					switch(choice.charAt(0)) {
 					case 'a':

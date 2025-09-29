@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -51,8 +52,24 @@ public class File_Trial {
 		}
 	}
 	
+	void csvWriter(ArrayList<Student_Data> s) {
+		try(FileWriter fw = new FileWriter("Stden.csv", true)){
+			fw.append("ID,Name,Age,Address,Marks\n");
+			for(Student_Data sd : s) {
+				fw.write(sd.id+",");
+				fw.write(sd.name+",");
+				fw.write(sd.age+",");
+				fw.write(sd.address+",");
+				fw.write(sd.marks+"\n");
+			}
+			fw.close();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
 	void fileWriter(ArrayList<Student_Data> s) {
-		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Std.dat"))){
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Stden.csv"))){
 			oos.writeObject(s);
 			oos.close();
 		}
@@ -60,6 +77,7 @@ public class File_Trial {
 			System.out.println(e);
 		}
 	}
+	
 	
 	void fileReader() {
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Std.dat"))){
@@ -75,8 +93,9 @@ public class File_Trial {
 	}
 	public static void main(String[] args) {
 		File_Trial ft = new File_Trial();
-//		ArrayList<Student_Data> stud = ft.reader();
+		ArrayList<Student_Data> stud = new ArrayList<>();
 //		ft.fileWriter(stud);
-		ft.fileReader();
+//		ft.csvWriter(stud);
+//		ft.fileReader();
 	}
 }

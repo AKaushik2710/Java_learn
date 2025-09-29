@@ -2,8 +2,34 @@ package practiceExam;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
+class EMP{
+	int id;
+	String name;
+	EMP(int id, String name){
+		this.id = id;
+		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return this.id + " " + this.name;
+	}
+}
+class SortById implements Comparator<EMP>{
+	public int compare(EMP e1, EMP e2) {
+		return Integer.compare(e1.id, e2.id);
+	}
+}
+
+class SortByNM implements Comparator<EMP>{
+	public int compare(EMP e1, EMP e2) {
+		return e1.name.compareTo(e2.name);
+	}
+}
 public class P_1 {
 		ArrayList<Integer> creator(Scanner sc) {
 		ArrayList<Integer> myArr = new ArrayList<>();
@@ -38,7 +64,7 @@ public class P_1 {
 		return -1;
 	}
 	
-	ArrayList<Integer> dupRemover (ArrayList<Integer> myArr){
+	void dupRemover (ArrayList<Integer> myArr){
 		int[] arr = {1,2,1,4,1};
 		int uniqueElements = 0;
 		int count = 0;
@@ -100,12 +126,26 @@ public class P_1 {
 		}
 		return count;
 	}
+	
+	
 	public static void main(String[] args) {
 		P_1 p = new P_1();
 		Scanner sc =  new Scanner(System.in);
 //		ArrayList<Integer> myArr = p.creator(sc);
 //		System.out.println(myArr);
-		ArrayList<String> myArr2 = new ArrayList<>(Arrays.asList("Aman", "Kaushik","Himanshu", "Jai"));
-		System.out.println(p.searcher(sc, myArr2));
+//		ArrayList<String> myArr2 = new ArrayList<>(Arrays.asList("Aman", "Kaushik","Himanshu", "Jai"));
+//		System.out.println(p.searcher(sc, myArr2));
+		SortById sid = new SortById();
+		SortByNM snm = new SortByNM();
+		
+		EMP e1 = new EMP(4, "Aman");
+		EMP e2 = new EMP(2, "Animesh");
+		ArrayList<EMP> e = new ArrayList<>(Arrays.asList(e1, e2));
+		
+//		Collections.sort(e, sid);
+		Collections.sort(e, snm);
+		for(EMP eg : e) {
+			System.out.println(eg);
+		}
 	}
 }

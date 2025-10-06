@@ -16,5 +16,7 @@ public class ArmstrongNumber {
 	
 	public static void main(String[] args) {
 		System.out.println(an(153));
+		long m = Integer.MAX_VALUE-1;
+		System.out.println(m+1);
 	}
 }

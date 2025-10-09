@@ -4,15 +4,15 @@ import java.util.Arrays;
 
 public class ZigZag {
 	public static String convert(String s, int numRows) {
-        int o = (numRows==2) ? 2 : 7;
+		int o = (numRows==2) ? 2 : 7;
         System.out.println(o);
-        char[][] res = new char[numRows][(s.length()%2==0 && o==2)?o:o+1];
+        char[][] res = new char[numRows][o+s.length()/2];
         boolean whole=true;
         int idx=0;
         int n = numRows-2;
         String str="";
-        int bb=o+1;
-        if(numRows==1) return s;
+        int bb=o+s.length()/2;
+        if(numRows==1 || s.length()==1) return s;
         for(int i=0; i<bb; i++){
             for(int j=0; j<numRows; j++){
             	System.out.println(idx +" "+s.length());

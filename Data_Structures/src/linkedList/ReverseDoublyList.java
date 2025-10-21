@@ -38,19 +38,10 @@ public class ReverseDoublyList {
 	public static void main(String[] args) {
 		DoubleListNode head = listMaker();
 		
-//		while(head.getNextNode()!=null) {
-//			System.out.println(head.getData());
-//			head=head.getNextNode();
-//			System.out.println(head.getPrevNode().getData());
-//		}
-//		
-//		System.out.println(head.getData());
-		
 		DoubleListNode newHead = reverser(head);
 		while(newHead!=null) {
 			System.out.println(newHead.getData());
 			newHead=newHead.getNextNode();
 		}
-		System.out.println(newHead.getPrevNode());
 	}
 }

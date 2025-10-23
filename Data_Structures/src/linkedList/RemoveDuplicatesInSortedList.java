@@ -1,5 +1,7 @@
 package linkedList;
 
+import java.util.HashSet;
+
 public class RemoveDuplicatesInSortedList {
 	
 	static SingleListNode dupRemover(SingleListNode head) {
@@ -27,7 +29,7 @@ public class RemoveDuplicatesInSortedList {
 //		head.getNextNode().getNextNode().getNextNode().setNextNode(new SingleListNode(3));
 //		head.getNextNode().getNextNode().getNextNode().getNextNode().setNextNode(new SingleListNode(3));
 		head = dupRemover(head);
-		
+		HashSet<Integer> hash = new HashSet<>();
 		while(head!=null) {
 			System.out.println(head.getData());
 			head = head.getNextNode();

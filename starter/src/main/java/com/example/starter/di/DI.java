@@ -7,7 +7,7 @@ interface diTrial{
 	String runner(String str);
 }
 
-@Service
+//@Service
 class DItrial1 implements diTrial{
 	@Override
 	public String runner(String str) {
@@ -15,7 +15,7 @@ class DItrial1 implements diTrial{
 	}
 }
 
-@Service
+//@Service
 class DItrial2 implements diTrial{
 	@Override
 	public String runner(String str) {
@@ -25,11 +25,12 @@ class DItrial2 implements diTrial{
 public class DI{
 	private diTrial myTrial;
 	
-	DI(@Qualifier("DItrial2") diTrial myTrial){
+	DI(diTrial myTrial){
 		this.myTrial = myTrial;
 	}
 	
 	public static void main(String[] args) {
-		DI di = new DI(new diTrial());
+		DI di = new DI(new DItrial2());
+		di.myTrial.runner("Aman");
 	}
 }

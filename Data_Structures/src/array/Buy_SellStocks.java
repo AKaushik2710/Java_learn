@@ -25,6 +25,15 @@ public class Buy_SellStocks {
 		return profit;
 	}
 	
+    public static String reversal(String str){
+        String res="";
+        char c[] = str.toCharArray();
+        for(int i=1; i<=c.length; i++){
+            res+=c[c.length-i];
+        }
+
+        return res;
+    }
 	public static void main(String[] args) {
 //		int[] arr = {100, 180, 260, 310, 40, 535, 695};
 //		int[] arr = {4,2};
@@ -35,6 +44,10 @@ public class Buy_SellStocks {
 //		int[] arr = {10};
 //		int[] arr = {3, 2, 6, 5, 0, 3};
 		int[] arr = {1, 5, 3, 8, 4, 9};
-		System.out.println(profitAcquired(arr));
+//		System.out.println(profitAcquired(arr));
+//		double r = (double) 3/2;
+//		System.out.println(r);
+//		System.out.println(reversal("RZX") + "RZX".substring(1));
+		System.out.println("AMAN".substring(1, 4));
 	}
 }

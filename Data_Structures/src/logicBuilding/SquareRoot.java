@@ -14,7 +14,7 @@ public class SquareRoot {
 		int low=1;
 		int high=num;
 		int mid;
-		while(low<high) {
+		while(low<=high) {
 			mid = low+(high-low)/2;
 			if(mid*mid<=num) {
 				res=mid;
@@ -28,6 +28,6 @@ public class SquareRoot {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(binarySR(37));
+		System.out.println(binarySR(1));
 	}
 }

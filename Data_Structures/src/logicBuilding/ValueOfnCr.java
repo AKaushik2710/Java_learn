@@ -22,6 +22,7 @@ public class ValueOfnCr {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(nCr(5,2));
+//		System.out.println(nCr(3,2));
+		System.out.println(Math.pow(2, 4));
 	}
 }

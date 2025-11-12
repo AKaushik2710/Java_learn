@@ -51,13 +51,6 @@ static Tree root=null;
 		return node;
 	}
 	
-//	static Tree locateParent()
-//	static Tree del(Tree root, int del, Tree left, Tree right) {
-//		if(root.getData()>del) {
-//			
-//		}
-//	}
-	
 	static Tree selectRightmost(Tree node) {
 		if(node.getRightChild()==null||node.getRightChild().getRightChild()==null) {
 			return node;
@@ -68,9 +61,17 @@ static Tree root=null;
 		return node;
 	}
 	
+	static void constructIt(Tree node, Tree sub, boolean left) {
+		if(node.getData()==sub.getData()) {
+			if(left)node.setLeftChild(null);
+			else node.setRightChild(null);
+		}
+		else {
+			setNullMost(node, sub);
+		}
+	}
 	static void setNullMost(Tree node, Tree nHead) {
-		if(node == nHead) return;
-		if(node.getRightChild()==nHead) {
+		if(node.getRightChild().getData()==nHead.getData()) {
 			node.setRightChild(null);
 		}
 		else {
@@ -87,6 +88,8 @@ static Tree root=null;
 		Tree p = locateItem(root, 40);
 		Tree left = p.getData()>40 ? p.getLeftChild().getLeftChild() : p.getRightChild().getLeftChild();
 		Tree right = p.getData()>40 ? p.getLeftChild().getRightChild() : p.getRightChild().getRightChild();
+		
+//		System.out.println(p.getData());
 		if(40==p.getLeftChild().getData()) {
 			p.getLeftChild().setLeftChild(null);
 			p.getLeftChild().setRightChild(null);
@@ -97,10 +100,24 @@ static Tree root=null;
 			p.getRightChild().setRightChild(null);
 			p.setRightChild(null);
 		}
+		
 		Tree newHead = selectRightmost(right);
-		if(newHead.getLeftChild()!=null && newHead.getRightChild()!=null)setNullMost(right, newHead);
-		else newHead.setRightChild(null);
+		
 		if(p.getData()>40) {
+			p.setLeftChild(newHead);
+			p.getLeftChild().setLeftChild(left);
+			p.getLeftChild().setRightChild(right);
+			constructIt(p.getLeftChild(), left, true);
+		}
+		else {
+			p.setRightChild(newHead);
+			p.getRightChild().setLeftChild(left);
+			p.getRightChild().setRightChild(right);
+			constructIt(p.getRightChild(), right, false);
+		}
+//		if(newHead.getLeftChild()!=null && newHead.getRightChild()!=null)setNullMost(right, newHead);
+//		else newHead.setRightChild(null);
+		/*if(p.getData()>40) {
 			p.setLeftChild(newHead);
 			p.getLeftChild().setLeftChild(left);
 			p.getLeftChild().setRightChild(right);
@@ -109,9 +126,9 @@ static Tree root=null;
 			p.setRightChild(newHead);
 			p.getRightChild().setLeftChild(left);
 			p.getRightChild().setRightChild(right);
-		}
+		} */
 //		System.out.println(p.getData()+" "+p.getLeftChild().getData()+ " "+left.getData()+" "+right.getData());
 //		inorder(root);
-		System.out.println(root.getLeftChild().getRightChild().getRightChild().getData());
+		System.out.println(root.getData()+" "+root.getRightChild().getData() + " "+newHead.getData()+" "+left.getData()+" "+right.getData());
 	}
 }
